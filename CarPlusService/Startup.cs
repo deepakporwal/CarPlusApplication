@@ -8,7 +8,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CarPlusService
@@ -25,7 +27,19 @@ namespace CarPlusService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true)
+                .AddEnvironmentVariables();
+
+            var config = builder.Build();
+
+            var key = Encoding.ASCII.GetBytes(config["Key"]); 
+
             services.AddControllers();
+
+            // configure the global exception handling
+
+
             services.AddSwaggerGen();
         }
 
