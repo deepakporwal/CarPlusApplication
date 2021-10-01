@@ -1,0 +1,64 @@
+﻿-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- exec usp_GetStudents 1,1
+-- =============================================
+CREATE PROCEDURE usp_GetStudents
+(
+	@PageSize int= 0,
+	@PageNumber int = 0,
+	@SearchText varchar(max) =null,
+	@SortOrder varchar(max) = null
+)
+	
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	Begin Try
+
+		declare
+		@iPageSize int  = @PageSize,
+		@iPageNumber int = @PageNumber,	
+		@iSearchText  varchar(max)  = @SearchText,
+		@iSortOrder  varchar(max) = @SortOrder
+		
+		Declare @ResultSet Table 
+		(
+		[FirstName] [varchar](50) ,
+		[LastName] [varchar](50) ,
+		[Age] [int],
+		[Dob] [datetime] ,
+		[Address] [varchar](250),
+		[Email] [varchar](50) 
+		)
+
+		Insert into @ResultSet 
+		select 	[FirstName]  ,		[LastName] ,		[Age] ,		[Dob]  ,		[Address] ,		[Email]  
+		from Students
+
+		if(ISNULL(@iPageNumber,0) = 0)
+		begin
+			set @iPageNumber =1
+		end
+
+		if(ISNULL(@iPageSize,0) = 0)
+		begin
+			select @iPageSize = count(1) from @ResultSet
+		end
+
+		select * from @ResultSet order by 1 desc OFFSET((@iPageNumber-1) * @iPageSize) Rows fetch next (@iPageSize) Rows only
+
+		select count(1) as TotalRecords from @ResultSet
+
+	End Try
+
+	Begin Catch
+		
+	End Catch
+    
+END
+GO

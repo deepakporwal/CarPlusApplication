@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\ServiceDAL\ServiceDAL.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Implmentations\" />
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+
+</Project>
