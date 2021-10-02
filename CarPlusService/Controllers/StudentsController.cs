@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CarPlusService.Validators;
+using FluentValidation.Results;
+using FluentValidation;
 
 namespace CarPlusService.Controllers
 {
@@ -12,6 +15,11 @@ namespace CarPlusService.Controllers
     [ApiController]
     public class StudentsController : ControllerBase
     {
+        public StudentsController()
+        {
+           
+        }
+
         [HttpGet("Getstudents")]
         public async Task<ActionResult<StudentDataDTO>> GetStudents() 
         {

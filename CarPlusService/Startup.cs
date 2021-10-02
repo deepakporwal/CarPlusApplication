@@ -12,6 +12,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FluentValidation.AspNetCore;
+using FluentValidation;
+using Common;
+using CarPlusService.Validators;
 
 namespace CarPlusService
 {
@@ -25,6 +29,7 @@ namespace CarPlusService
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        [Obsolete]
         public void ConfigureServices(IServiceCollection services)
         {
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json")
@@ -38,7 +43,17 @@ namespace CarPlusService
             services.AddControllers();
 
             // configure the global exception handling
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new CustomExceptionFilterAttribute());
+            }).AddFluentValidation(s=> 
+                {
+                    s.RegisterValidatorsFromAssemblyContaining<Startup>();
+                    s.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+                }
+            );
 
+            services.AddTransient<IValidator<StudentData>, StudentValidatorCollection>();
 
             services.AddSwaggerGen();
         }
