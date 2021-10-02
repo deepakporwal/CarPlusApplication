@@ -73,6 +73,7 @@ namespace CarPlusService
 
             services.AddTransient<IValidator<StudentData>, StudentValidatorCollection>();
 
+
             #region Configure Swagger  
             services.AddSwaggerGen(c =>
             {
