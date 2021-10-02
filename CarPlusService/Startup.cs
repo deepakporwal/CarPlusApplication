@@ -29,7 +29,7 @@ namespace CarPlusService
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        [Obsolete]
+        //[Obsolete] // working without it
         public void ConfigureServices(IServiceCollection services)
         {
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json")
@@ -49,7 +49,7 @@ namespace CarPlusService
             }).AddFluentValidation(s=> 
                 {
                     s.RegisterValidatorsFromAssemblyContaining<Startup>();
-                    s.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+                    //s.RunDefaultMvcValidationAfterFluentValidationExecutes = false; // working without it
                 }
             );
 
