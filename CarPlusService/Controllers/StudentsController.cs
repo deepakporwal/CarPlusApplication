@@ -8,10 +8,13 @@ using System.Threading.Tasks;
 using CarPlusService.Validators;
 using FluentValidation.Results;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CarPlusService.Controllers
 {
+    
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class StudentsController : ControllerBase
     {
